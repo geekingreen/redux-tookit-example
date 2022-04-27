@@ -7,7 +7,7 @@ const Todo = ({ todo, onUpdate, onDelete }) => (
       onChange={(e) => onUpdate({ ...todo, completed: e.target.checked })}
     />
     {todo.title}{" "}
-    <button className="ml-auto" onClick={() => onDelete(todo)}>
+    <button className="ml-auto bg-gray-200 hover:bg-gray-300 w-[35px] h-[35px] rounded-full" onClick={() => onDelete(todo)}>
       X
     </button>
   </div>
