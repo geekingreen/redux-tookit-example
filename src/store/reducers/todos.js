@@ -65,7 +65,8 @@ const todosSlice = createSlice({
       state.loading = true;
     });
     addCase(createTodo.fulfilled, (state, action) => {
-      state.todos.push(action.payload);
+      console.log(action.payload.id);
+      state.todos.push({ ...action.payload, id: action.payload.id + getId() });
       state.loading = false;
     });
     addCase(createTodo.rejected, (state, action) => {
@@ -100,5 +101,11 @@ const todosSlice = createSlice({
     });
   },
 });
+
+// increments id since service always returns 201 as the id
+function getId() {
+  getId.id = getId.id || 0;
+  return getId.id++;
+}
 
 export default todosSlice.reducer;
