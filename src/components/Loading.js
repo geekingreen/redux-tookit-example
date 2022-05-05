@@ -1,10 +1,12 @@
-import useTodos from "../store/hooks/useTodos";
+import {
+  useCreateTodoMutation,
+  useGetTodosQuery,
+} from "../store/services/todosApi";
 
 const Loading = ({ v = "bottom", h = "left" }) => {
-  const {
-    data: { loading, todos },
-    actions,
-  } = useTodos();
+  const { data: todos, isLoading: todosLoading } = useGetTodosQuery();
+  const [createTodo, { isLoading: createLoading }] = useCreateTodoMutation();
+  const loading = todosLoading || createLoading;
 
   return (
     <div
@@ -17,8 +19,9 @@ const Loading = ({ v = "bottom", h = "left" }) => {
         <>
           <div>Latest todo title: {todos[todos.length - 1]?.title}</div>
           <button
+            disabled={createLoading}
             className="p-2 bg-gray-100 hover:bg-gray-200"
-            onClick={() => actions.createTodo({ title: "Added from loader" })}
+            onClick={() => createTodo({ title: "Added from loader" })}
           >
             Add Todo
           </button>
