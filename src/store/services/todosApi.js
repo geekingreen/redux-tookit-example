@@ -34,9 +34,9 @@ const todosApi = createApi({
         method: "PUT",
         body: todo,
       }),
-      async onQueryStarted(todo, { dispatch, queryFulfilled }) {
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
-          await queryFulfilled;
+          const { data: todo } = await queryFulfilled;
           dispatch(
             todosApi.util.updateQueryData("getTodos", undefined, (data) =>
               data.map((t) => (t.id === todo.id ? todo : t))
