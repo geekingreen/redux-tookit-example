@@ -7,7 +7,7 @@ export const getTodos = createAsyncThunk(`${name}/getTodos`, async () => {
   const { data } = await axios.get(
     "https://jsonplaceholder.typicode.com/todos"
   );
-  return data;
+  return data.slice(0, 10);
 });
 
 export const createTodo = createAsyncThunk(
@@ -65,7 +65,6 @@ const todosSlice = createSlice({
       state.loading = true;
     });
     addCase(createTodo.fulfilled, (state, action) => {
-      console.log(action.payload.id);
       state.todos.push({ ...action.payload, id: action.payload.id + getId() });
       state.loading = false;
     });
