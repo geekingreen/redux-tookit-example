@@ -16,13 +16,13 @@ const todosApi = createApi({
         method: "POST",
         body: todo,
       }),
-      async onQueryStarted(todo, { dispatch, queryFulfilled }) {
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
-          await queryFulfilled;
+          const { data: todo } = await queryFulfilled;
           dispatch(
             todosApi.util.updateQueryData("getTodos", undefined, (data) => [
               ...data,
-              todo,
+              { ...todo, id: todo.id + getId() },
             ])
           );
         } catch {}
@@ -60,6 +60,12 @@ const todosApi = createApi({
     }),
   }),
 });
+
+// increments id since service always returns 201 as the id
+function getId() {
+  getId.id = getId.id || 0;
+  return getId.id++;
+}
 
 export const {
   useGetTodosQuery,
